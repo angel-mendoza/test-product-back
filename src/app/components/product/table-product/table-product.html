@@ -1,0 +1,191 @@
+<div class="table-container">
+  <!-- Barra de búsqueda -->
+  <div class="search-container">
+    <input
+      type="text"
+      placeholder="Search..."
+      class="search-input"
+      [(ngModel)]="searchTerm"
+      (input)="onSearch()"
+      [disabled]="loading || !!error">
+      <a routerLink="create" class="btn btn-primary">
+        <mat-icon>add</mat-icon>
+        <span>
+          Agregar
+        </span>
+      </a>
+  </div>
+
+  <!-- Tabla -->
+  <div class="table-wrapper">
+    <table class="products-table">
+      <thead>
+        <tr>
+          <th class="logo-column">Logo</th>
+          <th class="name-column">
+            <span>Nombre del producto</span>
+            <button class="sort-btn" (click)="sort('name')">
+              <mat-icon class="sort-icon" [class.active]="sortField === 'name'">{{sortField === 'name' ? (sortDirection === 'asc' ? 'arrow_upward' : 'arrow_downward') : 'arrow_upward'}}</mat-icon>
+            </button>
+          </th>
+          <th class="description-column">
+            <span>Descripción</span>
+            <button class="sort-btn" (click)="sort('description')">
+              <mat-icon class="sort-icon" [class.active]="sortField === 'description'">{{sortField === 'description' ? (sortDirection === 'asc' ? 'arrow_upward' : 'arrow_downward') : 'arrow_upward'}}</mat-icon>
+            </button>
+          </th>
+          <th class="date-column">
+            <span>Fecha de liberación</span>
+            <button class="sort-btn" (click)="sort('date_release')">
+              <mat-icon class="sort-icon" [class.active]="sortField === 'date_release'">{{sortField === 'date_release' ? (sortDirection === 'asc' ? 'arrow_upward' : 'arrow_downward') : 'arrow_upward'}}</mat-icon>
+            </button>
+          </th>
+          <th class="date-column">
+            <span>Fecha de reestructuración</span>
+            <button class="sort-btn" (click)="sort('date_revision')">
+              <mat-icon class="sort-icon" [class.active]="sortField === 'date_revision'">{{sortField === 'date_revision' ? (sortDirection === 'asc' ? 'arrow_upward' : 'arrow_downward') : 'arrow_upward'}}</mat-icon>
+            </button>
+          </th>
+          <th class="actions-column"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Estado de carga (Skeleton) -->
+        @if (loading) {
+           <tr *ngFor="let item of skeletonRows; let i = index" class="skeleton-row">
+             <td class="logo-cell">
+               <div class="skeleton skeleton-logo"></div>
+             </td>
+             <td class="name-cell">
+               <div class="skeleton skeleton-text-long"></div>
+             </td>
+             <td class="description-cell">
+               <div class="skeleton skeleton-text-full"></div>
+             </td>
+             <td class="date-cell">
+               <div class="skeleton skeleton-text-short"></div>
+             </td>
+             <td class="date-cell">
+               <div class="skeleton skeleton-text-short"></div>
+             </td>
+             <td class="actions-cell">
+               <div class="skeleton skeleton-dots"></div>
+             </td>
+           </tr>
+         }
+
+        <!-- Datos reales -->
+        @if (hasData) {
+          <tr *ngFor="let product of paginatedProducts" class="product-row">
+          <td class="logo-cell">
+            <div class="logo-placeholder">
+              <img
+                [src]="product.logo"
+                [alt]="product.name"
+                class="product-logo"
+                (error)="onImageError($event)">
+            </div>
+          </td>
+          <td class="name-cell">{{ product.name }}</td>
+          <td class="description-cell">{{ product.description }}</td>
+          <td class="date-cell">{{ product.date_release | date:'dd/MM/yyyy' }}</td>
+          <td class="date-cell">{{ product.date_revision | date:'dd/MM/yyyy' }}</td>
+          <td class="actions-cell">
+            <div class="dropdown">
+              <button class="dropdown-btn" (click)="toggleDropdown(product.id)">
+                <span class="dots">⋯</span>
+              </button>
+              <div class="dropdown-menu" [class.show]="openDropdownId === product.id">
+                <a routerLink="/products/{{ product.id }}/edit" class="dropdown-item">
+                  <mat-icon class="dropdown-icon">edit</mat-icon>
+                  Editar
+                </a>
+                <button class="dropdown-item delete" (click)="deleteProduct(product)">
+                  <mat-icon class="dropdown-icon">delete</mat-icon>
+                  Eliminar
+                </button>
+              </div>
+            </div>
+          </td>
+        </tr>
+        }
+
+        <!-- Estado vacío -->
+        @if (isEmpty) {
+          <tr class="empty-state">
+            <td colspan="6" class="empty-cell">
+              <div class="empty-content">
+                <mat-icon class="empty-icon">inventory_2</mat-icon>
+                <h3 class="empty-title">No hay productos disponibles</h3>
+                <p class="empty-description">No se encontraron productos para mostrar. Intenta agregar algunos productos o revisa los filtros aplicados.</p>
+              </div>
+            </td>
+          </tr>
+        }
+
+        <!-- Estado de error -->
+        @if (error) {
+          <tr class="error-state">
+            <td colspan="6" class="error-cell">
+              <div class="error-content">
+                <mat-icon class="error-icon">error_outline</mat-icon>
+                <h3 class="error-title">Error al cargar los productos</h3>
+                <p class="error-description">{{ error }}</p>
+                <button class="btn btn-secondary" (click)="retryLoad()">
+                  <mat-icon>refresh</mat-icon>
+                  Reintentar
+                </button>
+              </div>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Paginación -->
+  <div class="pagination-container" *ngIf="hasData">
+    <span class="results-count">{{ filteredProducts?.length }} Resultados</span>
+    <div class="pagination-controls">
+      <!-- Controles de navegación -->
+      <div class="pagination-nav">
+        <button
+          class="pagination-btn"
+          [disabled]="currentPage === 1"
+          (click)="goToFirstPage()">
+          <mat-icon>keyboard_double_arrow_left</mat-icon>
+        </button>
+        <button
+          class="pagination-btn"
+          [disabled]="currentPage === 1"
+          (click)="goToPreviousPage()">
+          <mat-icon>keyboard_arrow_left</mat-icon>
+        </button>
+
+        <span class="page-info">
+          {{ currentPage }} / {{ totalPages }}
+        </span>
+
+        <button
+          class="pagination-btn"
+          [disabled]="currentPage === totalPages"
+          (click)="goToNextPage()">
+          <mat-icon>keyboard_arrow_right</mat-icon>
+        </button>
+        <button
+          class="pagination-btn"
+          [disabled]="currentPage === totalPages"
+          (click)="goToLastPage()">
+          <mat-icon>keyboard_double_arrow_right</mat-icon>
+        </button>
+      </div>
+
+      <!-- Selector de tamaño de página -->
+      <select class="page-size-select" [(ngModel)]="pageSize" (change)="onPageSizeChange()">
+        <option value="5">5</option>
+        <option value="10">10</option>
+        <option value="20">20</option>
+      </select>
+    </div>
+  </div>
+</div>

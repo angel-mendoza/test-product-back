@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-// import { HttpClient } from '@angular/common/http';
+
+// components
+import {TableProduct} from '../..//components/product/table-product/table-product';
 
 // service
 import { ProductsService } from '../../services/products.service'
@@ -9,12 +11,12 @@ import { Product } from '../../types/product.interface';
 
 @Component({
   selector: 'app-home',
-  imports: [],
+  imports: [TableProduct],
   templateUrl: './home.html',
   styleUrl: './home.css',
 })
 export class HomePage implements OnInit{
-  isLoading = false;
+  isLoading = true;
   data: Product[] | null = null;
   error: string | null = null;
 
@@ -31,7 +33,6 @@ export class HomePage implements OnInit{
       next: (response) => {
         this.data = response.data;
         this.isLoading = false;
-        console.log('Data fetched successfully:', response);
       },
       error: (err) => {
         this.error = 'Failed to fetch data.';

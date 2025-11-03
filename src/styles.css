@@ -1,6 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 
 @import './styles/reset.css';
+@import './styles/button.css';
 
 :root {
   /* Colores principales */
@@ -50,6 +51,7 @@
   --border-radius: 0.25rem;
   --border-radius-lg: 0.5rem;
   --border-radius-xl: 1rem;
+  --border-radius-circle: 50%;
 
   /* Sombras */
   --shadow-sm: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
@@ -80,4 +82,13 @@ body {
   font-size: var(--font-size-base);
   color: var(--text-primary);
   background-color: var(--bg-secondary);
+}
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
 }
