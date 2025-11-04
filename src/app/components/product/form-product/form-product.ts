@@ -171,7 +171,9 @@ export class FormProduct implements OnInit, OnChanges {
   }
 
   private calculateRevisionDate(releaseDate: string): string {
-    const date = new Date(releaseDate);
+    const [year, month, day] = releaseDate.split('-').map(Number);
+    const date = new Date(year, month - 1, day);
+
     date.setFullYear(date.getFullYear() + 1);
     // Usar DatePipe para formatear la fecha de revisión
     return this.datePipe.transform(date, 'yyyy-MM-dd') || '';
