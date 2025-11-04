@@ -111,7 +111,7 @@
         }
 
         <!-- Estado vacío -->
-        @if (isEmpty || paginatedProducts.length === 0) {
+        @if ((isEmpty || paginatedProducts.length === 0) && !loading && !error ) {
           <tr class="empty-state">
             <td colspan="6" class="empty-cell">
               <div class="empty-content">

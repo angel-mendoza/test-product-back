@@ -79,14 +79,12 @@ export class HomePage implements OnInit{
         error: (err) => {
           console.error('Error al eliminar el producto:', err);
           let errorMessage = 'No se pudo eliminar el producto. Intenta nuevamente.';
-          
           // Personalizar mensaje según el error
           if (err.status === 404) {
             errorMessage = 'El producto no existe o ya fue eliminado.';
           } else if (err.status === 403) {
             errorMessage = 'No tienes permisos para eliminar este producto.';
           }
-          
           this.alertService.error(errorMessage, 'Error al Eliminar');
           this.closeDeleteModal();
         }
