@@ -17,6 +17,7 @@ export class TableProduct implements OnInit {
   @Input() loading: boolean = false;
   @Input() error: string | null = null;
   @Output() reload = new EventEmitter<void>();
+  @Output() onDelete = new EventEmitter<string>();
 
   // Propiedades para búsqueda y filtrado
   searchTerm: string = '';
@@ -103,16 +104,15 @@ export class TableProduct implements OnInit {
       }
       return 0;
     });
-    
     this.updatePagination();
   }
 
   updatePagination() {
     if (!this.filteredProducts) return;
-    
+
     // Calcular el número total de páginas
     this.totalPages = Math.ceil(this.filteredProducts.length / this.pageSize);
-    
+
     // Asegurar que currentPage esté dentro del rango válido
     if (this.currentPage > this.totalPages) {
       this.currentPage = this.totalPages;
@@ -120,7 +120,7 @@ export class TableProduct implements OnInit {
     if (this.currentPage < 1) {
       this.currentPage = 1;
     }
-    
+
     const startIndex = (this.currentPage - 1) * this.pageSize;
     const endIndex = startIndex + this.pageSize;
     this.paginatedProducts = this.filteredProducts.slice(startIndex, endIndex);
@@ -137,7 +137,7 @@ export class TableProduct implements OnInit {
   }
 
   deleteProduct(product: any) {
-    console.log('Eliminar producto:', product);
+    this.onDelete.emit(product.id);
     this.closeDropdown();
     // Aquí implementarías la lógica para eliminar
   }
@@ -183,14 +183,5 @@ export class TableProduct implements OnInit {
 
   retryLoad() {
     this.reload.emit();
-  }
-
-  // Debug helper - puedes llamarlo desde el template para verificar
-  debugState() {
-    console.log('Loading:', this.loading);
-    console.log('Error:', this.error);
-    console.log('Products:', this.products);
-    console.log('HasData:', this.hasData);
-    console.log('IsEmpty:', this.isEmpty);
   }
 }

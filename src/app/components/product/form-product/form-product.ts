@@ -27,17 +27,17 @@ export class FormProduct implements OnInit {
 
       const inputDate = new Date(control.value);
       const today = new Date();
-      
+
       // Establecer la hora a 00:00:00 para comparar solo fechas
       today.setHours(0, 0, 0, 0);
       inputDate.setHours(0, 0, 0, 0);
 
       if (inputDate < today) {
-        return { 
-          dateNotValid: { 
+        return {
+          dateNotValid: {
             actualDate: today.toISOString().split('T')[0],
-            inputDate: control.value 
-          } 
+            inputDate: control.value
+          }
         };
       }
 
@@ -85,7 +85,6 @@ export class FormProduct implements OnInit {
   });
 
   ngOnInit() {
-    // Escuchar cambios en la fecha de liberación para calcular la fecha de revisión
     this.formProduct.get('date_release')?.valueChanges.subscribe(releaseDate => {
       if (releaseDate) {
         const revisionDate = this.calculateRevisionDate(releaseDate);

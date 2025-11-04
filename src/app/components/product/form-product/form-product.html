@@ -16,14 +16,8 @@
               @if (formProduct.get('id')?.errors?.['required']) {
                 <span>El ID es requerido</span>
               }
-              @if (formProduct.get('id')?.errors?.['minlength']) {
-                <span>El ID debe tener al menos 3 caracteres</span>
-              }
-              @if (formProduct.get('id')?.errors?.['maxlength']) {
-                <span>El ID no puede tener más de 10 caracteres</span>
-              }
-              @if (formProduct.get('id')?.errors?.['productIdExists']) {
-                <span>Este ID ya existe, por favor elija otro</span>
+              @if (formProduct.get('id')?.errors?.['minlength'] || formProduct.get('id')?.errors?.['maxlength'] || formProduct.get('id')?.errors?.['productIdExists'] ) {
+                <span>ID no valido</span>
               }
             </div>
           }

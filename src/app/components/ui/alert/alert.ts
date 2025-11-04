@@ -14,7 +14,8 @@ export interface AlertMessage {
 
 // Servicio de Alertas (Injectable)
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
+import { MatIcon } from "@angular/material/icon";
 
 @Injectable({
   providedIn: 'root'
@@ -75,7 +76,7 @@ export class AlertService {
 
 @Component({
   selector: 'app-alert',
-  imports: [CommonModule],
+  imports: [CommonModule, MatIcon],
   templateUrl: './alert.html',
   styleUrl: './alert.css',
 })
@@ -99,7 +100,4 @@ export class Alert implements OnInit, OnDestroy {
     this.alertService.removeAlert(id);
   }
 
-  getAlertIcon(type: 'success' | 'error'): string {
-    return type === 'success' ? '✓' : '✕';
-  }
 }

@@ -1,0 +1,44 @@
+<!-- Modal Backdrop -->
+@if (isOpen) {
+  <div
+    class="modal-backdrop"
+    (click)="onBackdropClick($event)"
+    role="dialog"
+    aria-modal="true">
+
+    <!-- Modal Content -->
+    <div
+      class="modal-content"
+      [ngClass]="{
+        'modal-small': size === 'small',
+        'modal-medium': size === 'medium',
+        'modal-large': size === 'large'
+      }">
+
+      <!-- Modal Body -->
+      <div class="modal-body">
+        @if (message) {
+          <p class="modal-message">{{ message }}</p>
+        }
+        <!-- Contenido proyectado -->
+        <ng-content></ng-content>
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="modal-footer">
+        @if (showCancel) {
+          <button
+            class="btn btn-secondary"
+            (click)="onCancel()">
+            {{ cancelText }}
+          </button>
+        }
+        <button
+          class="btn btn-primary"
+          (click)="onConfirm()">
+          {{ confirmText }}
+        </button>
+      </div>
+    </div>
+  </div>
+}

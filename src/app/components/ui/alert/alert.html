@@ -1,7 +1,7 @@
 <!-- Contenedor de alertas - posición fija en la esquina superior derecha -->
 <div class="alert-container">
   @for (alert of alerts; track alert.id) {
-    <div 
+    <div
       class="alert-toast"
       [ngClass]="{
         'alert-success': alert.type === 'success',
@@ -9,12 +9,16 @@
         'alert-visible': alert.isVisible
       }"
       [attr.data-alert-id]="alert.id">
-      
+
       <!-- Icono -->
       <div class="alert-icon">
-        <span [innerHTML]="getAlertIcon(alert.type)"></span>
+        @if(alert.type === 'success') {
+          <mat-icon>check_circle</mat-icon>
+        } @else if (alert.type === 'error') {
+          <mat-icon>error</mat-icon>
+        }
       </div>
-      
+
       <!-- Contenido -->
       <div class="alert-content">
         @if (alert.title) {
@@ -22,19 +26,19 @@
         }
         <div class="alert-message">{{ alert.message }}</div>
       </div>
-      
+
       <!-- Botón de cerrar -->
-      <button 
-        class="alert-close" 
+      <button
+        class="alert-close"
         (click)="closeAlert(alert.id)"
         aria-label="Cerrar alerta">
         ×
       </button>
-      
+
       <!-- Barra de progreso (opcional) -->
       @if (alert.duration && alert.duration > 0) {
         <div class="alert-progress">
-          <div 
+          <div
             class="alert-progress-bar"
             [style.animation-duration.ms]="alert.duration">
           </div>

@@ -1,4 +1,23 @@
 <section class="page">
   <h1>Product List</h1>
-  <app-table-product [products]="data || []" [loading]="isLoading" [error]="error" (reload)="fetchData()" />
+  <app-table-product
+    [products]="data || []"
+    [loading]="isLoading"
+    [error]="error"
+    (reload)="fetchData()"
+    (onDelete)="onDeleteProduct($event)" />
 </section>
+
+<!-- Modal de confirmación para eliminar producto -->
+<app-modal
+  [isOpen]="isDeleteModalOpen"
+  [message]="deleteModalMessage"
+  [confirmText]="'Eliminar'"
+  [cancelText]="'Cancelar'"
+  [size]="'medium'"
+  (confirm)="confirmDelete()"
+  (cancel)="cancelDelete()"
+  (close)="closeDeleteModal()">
+</app-modal>
+
+
