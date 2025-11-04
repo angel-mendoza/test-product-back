@@ -1,0 +1,8 @@
+<section class="page">
+  <app-form-product
+    (formSubmit)="onSubmit($event)"
+    [typeForm]="'update'"
+    [productData]="productData"
+    [loadingData]="isLoading">
+  </app-form-product>
+</section>

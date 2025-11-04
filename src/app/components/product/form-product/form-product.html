@@ -1,6 +1,6 @@
 <div class="form-container">
   <div class="form-card">
-    <h2 class="form-title">Formulario de Registro</h2>
+    <h2 class="form-title">{{ typeForm === 'create' ? 'Formulario de Registro' : 'Formulario de Actualización' }}</h2>
     <form [formGroup]="formProduct" class="app-form" (ngSubmit)="onSubmit()">
       <div class="form-row">
         <div class="form-group">
@@ -9,8 +9,9 @@
               id="id"
               type="text"
               formControlName="id"
-              placeholder="PROD-001"
-              class="form-input">
+              placeholder="PROD-Example"
+              class="form-input"
+              [disabled]="loadingData">
           @if (formProduct.get('id')?.invalid && formProduct.get('id')?.touched) {
             <div class="error-message">
               @if (formProduct.get('id')?.errors?.['required']) {
@@ -29,7 +30,8 @@
             type="text"
             formControlName="name"
             placeholder="Tarjeta Crédito"
-            class="form-input">
+            class="form-input"
+            [disabled]="loadingData">
           @if (formProduct.get('name')?.invalid && formProduct.get('name')?.touched) {
             <div class="error-message">
               @if (formProduct.get('name')?.errors?.['required']) {
@@ -54,7 +56,8 @@
             type="text"
             formControlName="description"
             placeholder="Descripción"
-            class="form-input">
+            class="form-input"
+            [disabled]="loadingData">
           @if (formProduct.get('description')?.invalid && formProduct.get('description')?.touched) {
             <div class="error-message">
               @if (formProduct.get('description')?.errors?.['required']) {
@@ -76,7 +79,8 @@
             type="text"
             formControlName="logo"
             placeholder="Logo"
-            class="form-input">
+            class="form-input"
+            [disabled]="loadingData">
           @if (formProduct.get('logo')?.invalid && formProduct.get('logo')?.touched) {
             <div class="error-message">
               @if (formProduct.get('logo')?.errors?.['required']) {
@@ -96,7 +100,8 @@
             formControlName="date_release"
             placeholder="dd/mm/aaaa"
             class="form-input"
-            [min]="minDate">
+            [min]="minDate"
+            [disabled]="loadingData">
           @if (formProduct.get('date_release')?.invalid && formProduct.get('date_release')?.touched) {
             <div class="error-message">
               @if (formProduct.get('date_release')?.errors?.['required']) {
@@ -116,21 +121,35 @@
             formControlName="date_revision"
             placeholder="dd/mm/aaaa"
             class="form-input"
-            [disabled]="true"
+            [disabled]="true || loadingData">
             >
         </div>
       </div>
 
       <div class="form-actions">
-        <button type="button" class="btn btn-outline-secondary" routerLink="/products">
+        <button
+          type="button"
+          class="btn btn-outline-secondary"
+          routerLink="/products">
           Volver
         </button>
         <div class="actions">
-          <button type="button" class="btn btn-secondary" (click)="onReset()">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            (click)="onReset()"
+            [disabled]="loadingData">
             Reiniciar
           </button>
-          <button type="submit" class="btn btn-primary">
-            Enviar
+          <button
+            type="submit"
+            class="btn btn-primary"
+            [disabled]="loadingData">
+            @if (loadingData) {
+              Cargando...
+            } @else {
+              Enviar
+            }
           </button>
         </div>
       </div>

@@ -31,6 +31,19 @@ export class ProductsService {
     );
   }
 
+  getOne(id: string, delayMs: number = 0, simulateError: boolean = false) {
+    // Si se quiere simular error, retornar error después del delay
+    if (simulateError) {
+      return of(null).pipe(
+        delay(delayMs),
+        switchMap(() => throwError(() => new Error('Error simulado: No se pudieron cargar el producto')))
+      );
+    }
+    return this.http.get<Product>(`${this.apiUrl}/bp/products/${id}`).pipe(
+      delay(delayMs)
+    );
+  }
+
   validateProductId(id: string) {
     return this.http.get(`${this.apiUrl}/bp/products/verification/${id}`)
   }
@@ -41,6 +54,10 @@ export class ProductsService {
 
   delete(id: string) {
     return this.http.delete(`${this.apiUrl}/bp/products/${id}`);
+  }
+
+  update(id: string, data: Product) {
+    return this.http.put(`${this.apiUrl}/bp/products/${id}`, data);
   }
 }
 

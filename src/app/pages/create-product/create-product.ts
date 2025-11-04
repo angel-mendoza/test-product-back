@@ -27,11 +27,7 @@ export class CreateProduct {
           `El producto "${formData.name}" ha sido creado exitosamente.`,
           'Producto Creado'
         );
-
-        // Opcional: Redirigir después de un delay
-        setTimeout(() => {
-          this.router.navigate(['/products']);
-        }, 2000);
+        this.router.navigate(['/products']);
       },
       error: (error) => {
         console.error('Error al crear producto:', error);

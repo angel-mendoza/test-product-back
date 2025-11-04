@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { RouterLink, Router } from '@angular/router';
 
 import { Product } from '../../../types/product.interface'
 import { MatIcon } from "@angular/material/icon";
@@ -35,6 +35,8 @@ export class TableProduct implements OnInit {
   pageSize: number = 5;
   currentPage: number = 1;
   totalPages: number = 1;
+
+  constructor(private router: Router) {}
 
   get totalItems(): number {
     return this.filteredProducts?.length || 0;
@@ -131,9 +133,8 @@ export class TableProduct implements OnInit {
   }
 
   editProduct(product: any) {
-    console.log('Editar producto:', product);
     this.closeDropdown();
-    // Aquí implementarías la lógica para editar
+    this.router.navigate([`/products/${product.id}/edit`]);
   }
 
   deleteProduct(product: any) {
