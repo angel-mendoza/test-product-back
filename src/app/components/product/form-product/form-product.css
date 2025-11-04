@@ -1,0 +1,33 @@
+.form-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-xl);
+  padding-top: var(--spacing-lg);
+  border-top: 1px solid var(--border-color);
+}
+
+.form-actions .btn {
+  min-width: 120px;
+  padding: var(--spacing-md) var(--spacing-lg);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-left: 10px;
+}
+
+.form-actions .btn.btn-outline-secondary {
+  margin-left: 0;
+}
+
+/* Actions container for buttons */
+.actions {
+  display: flex;
+  gap: var(--spacing-md);
+}
+
+.form-actions {
+  margin-top: var(--spacing-md);
+  border-top: none;
+  padding-top: 0;
+}

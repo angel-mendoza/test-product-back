@@ -1,0 +1,4 @@
+section.page {
+  padding: var(--spacing-lg);
+  background-color: var(--background-color);
+}

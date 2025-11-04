@@ -5,6 +5,7 @@ import {TableProduct} from '../..//components/product/table-product/table-produc
 
 // service
 import { ProductsService } from '../../services/products.service'
+import { AlertService } from '../../components/ui/alert/alert';
 
 // Interfaces
 import { Product } from '../../types/product.interface';
@@ -20,7 +21,10 @@ export class HomePage implements OnInit{
   data: Product[] | null = null;
   error: string | null = null;
 
-  constructor(private productsService: ProductsService) {}
+  constructor(
+    private productsService: ProductsService,
+    private alertService: AlertService
+  ) {}
 
   ngOnInit(): void {
     this.fetchData();

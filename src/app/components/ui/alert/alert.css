@@ -1,0 +1,185 @@
+/* Contenedor principal de alertas */
+.alert-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+  pointer-events: none;
+  max-width: 400px;
+  width: 100%;
+}
+
+/* Toast individual */
+.alert-toast {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  margin-bottom: 12px;
+  padding: 16px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  pointer-events: auto;
+  position: relative;
+  overflow: hidden;
+
+  /* Animación de entrada */
+  transform: translateX(100%);
+  opacity: 0;
+  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+/* Estado visible */
+.alert-toast.alert-visible {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+/* Estilos para Success */
+.alert-success {
+  border-left: 4px solid #10b981;
+}
+
+.alert-success .alert-icon {
+  background-color: #d1fae5;
+  color: #10b981;
+}
+
+/* Estilos para Error */
+.alert-error {
+  border-left: 4px solid #ef4444;
+}
+
+.alert-error .alert-icon {
+  background-color: #fecaca;
+  color: #ef4444;
+}
+
+/* Icono */
+.alert-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+/* Contenido */
+.alert-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.alert-title {
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 4px;
+  color: #1f2937;
+}
+
+.alert-message {
+  font-size: 14px;
+  color: #4b5563;
+  line-height: 1.4;
+  word-wrap: break-word;
+}
+
+/* Botón de cerrar */
+.alert-close {
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: #9ca3af;
+  cursor: pointer;
+  padding: 4px;
+  line-height: 1;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.alert-close:hover {
+  background-color: #f3f4f6;
+  color: #374151;
+}
+
+/* Barra de progreso */
+.alert-progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.alert-progress-bar {
+  height: 100%;
+  background-color: currentColor;
+  width: 100%;
+  transform-origin: left;
+  animation: shrink linear forwards;
+}
+
+.alert-success .alert-progress-bar {
+  background-color: #10b981;
+}
+
+.alert-error .alert-progress-bar {
+  background-color: #ef4444;
+}
+
+/* Animaciones */
+@keyframes shrink {
+  from {
+    transform: scaleX(1);
+  }
+  to {
+    transform: scaleX(0);
+  }
+}
+
+/* Animación de salida */
+.alert-toast.alert-removing {
+  transform: translateX(100%);
+  opacity: 0;
+  max-height: 0;
+  margin-bottom: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .alert-container {
+    left: 10px;
+    right: 10px;
+    top: 10px;
+    max-width: none;
+  }
+
+  .alert-toast {
+    padding: 12px;
+  }
+
+  .alert-title {
+    font-size: 13px;
+  }
+
+  .alert-message {
+    font-size: 13px;
+  }
+}
+
+/* Estados de hover para mejorar UX */
+.alert-toast:hover {
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+.alert-toast:hover .alert-progress-bar {
+  animation-play-state: paused;
+}

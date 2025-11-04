@@ -1,0 +1,145 @@
+<div class="form-container">
+  <div class="form-card">
+    <h2 class="form-title">Formulario de Registro</h2>
+    <form [formGroup]="formProduct" class="app-form" (ngSubmit)="onSubmit()">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="id">ID</label>
+            <input
+              id="id"
+              type="text"
+              formControlName="id"
+              placeholder="PROD-001"
+              class="form-input">
+          @if (formProduct.get('id')?.invalid && formProduct.get('id')?.touched) {
+            <div class="error-message">
+              @if (formProduct.get('id')?.errors?.['required']) {
+                <span>El ID es requerido</span>
+              }
+              @if (formProduct.get('id')?.errors?.['minlength']) {
+                <span>El ID debe tener al menos 3 caracteres</span>
+              }
+              @if (formProduct.get('id')?.errors?.['maxlength']) {
+                <span>El ID no puede tener más de 10 caracteres</span>
+              }
+              @if (formProduct.get('id')?.errors?.['productIdExists']) {
+                <span>Este ID ya existe, por favor elija otro</span>
+              }
+            </div>
+          }
+        </div>
+        <div class="form-group">
+          <label for="name">Nombre</label>
+          <input
+            id="name"
+            type="text"
+            formControlName="name"
+            placeholder="Tarjeta Crédito"
+            class="form-input">
+          @if (formProduct.get('name')?.invalid && formProduct.get('name')?.touched) {
+            <div class="error-message">
+              @if (formProduct.get('name')?.errors?.['required']) {
+                <span>El nombre es requerido</span>
+              }
+              @if (formProduct.get('name')?.errors?.['minlength']) {
+                <span>El nombre debe tener al menos 5 caracteres</span>
+              }
+              @if (formProduct.get('name')?.errors?.['maxlength']) {
+                <span>El nombre no puede tener más de 100 caracteres</span>
+              }
+            </div>
+          }
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="description">Descripción</label>
+          <input
+            id="description"
+            type="text"
+            formControlName="description"
+            placeholder="Descripción"
+            class="form-input">
+          @if (formProduct.get('description')?.invalid && formProduct.get('description')?.touched) {
+            <div class="error-message">
+              @if (formProduct.get('description')?.errors?.['required']) {
+                <span>La descripción es requerida</span>
+              }
+              @if (formProduct.get('description')?.errors?.['minlength']) {
+                <span>La descripción debe tener al menos 10 caracteres</span>
+              }
+              @if (formProduct.get('description')?.errors?.['maxlength']) {
+                <span>La descripción no puede tener más de 200 caracteres</span>
+              }
+            </div>
+          }
+        </div>
+        <div class="form-group">
+          <label for="logo">Logo</label>
+          <input
+            id="logo"
+            type="text"
+            formControlName="logo"
+            placeholder="Logo"
+            class="form-input">
+          @if (formProduct.get('logo')?.invalid && formProduct.get('logo')?.touched) {
+            <div class="error-message">
+              @if (formProduct.get('logo')?.errors?.['required']) {
+                <span>El logo es requerido</span>
+              }
+            </div>
+          }
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="date_release">Fecha Liberación</label>
+          <input
+            id="date_release"
+            type="date"
+            formControlName="date_release"
+            placeholder="dd/mm/aaaa"
+            class="form-input"
+            [min]="minDate">
+          @if (formProduct.get('date_release')?.invalid && formProduct.get('date_release')?.touched) {
+            <div class="error-message">
+              @if (formProduct.get('date_release')?.errors?.['required']) {
+                <span>La fecha de liberación es requerida</span>
+              }
+              @if (formProduct.get('date_release')?.errors?.['dateNotValid']) {
+                <span>La fecha debe ser igual o mayor a la fecha actual</span>
+              }
+            </div>
+          }
+        </div>
+        <div class="form-group">
+          <label for="date_revision">Fecha Revisión</label>
+          <input
+            id="date_revision"
+            type="date"
+            formControlName="date_revision"
+            placeholder="dd/mm/aaaa"
+            class="form-input"
+            [disabled]="true"
+            >
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn btn-outline-secondary" routerLink="/products">
+          Volver
+        </button>
+        <div class="actions">
+          <button type="button" class="btn btn-secondary" (click)="onReset()">
+            Reiniciar
+          </button>
+          <button type="submit" class="btn btn-primary">
+            Enviar
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
