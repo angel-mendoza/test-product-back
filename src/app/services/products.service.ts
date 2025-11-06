@@ -18,6 +18,8 @@ export class ProductsService {
 
   }
 
+  // coloque estos parametros para probar cuando falla el endpoint y el skeleton de carga. En produccion quedaria
+  // return this.http.get<ProductResponse>(`${this.apiUrl}/bp/products`)
   getAll(delayMs: number = 0, simulateError: boolean = false) {
     // Si se quiere simular error, retornar error después del delay
     if (simulateError) {
@@ -31,6 +33,8 @@ export class ProductsService {
     );
   }
 
+  // coloque estos parametros para probar cuando falla el endpoint y el skeleton de carga. En produccion quedaria
+  // return this.http.get<Product>(`${this.apiUrl}/bp/products/${id}`)
   getOne(id: string, delayMs: number = 0, simulateError: boolean = false) {
     // Si se quiere simular error, retornar error después del delay
     if (simulateError) {
